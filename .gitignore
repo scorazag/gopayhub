@@ -1,0 +1,32 @@
+# Binarios compilados
+/bin/
+main
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Herramientas de Go
+/vendor/
+*.test
+*.out
+
+# Variables de entorno (¡Súper importante en Fintech!)
+.env
+.env.local
+.env.*.local
+
+# Docker y Local DB
+.docker/
+postgres-data/
+
+# IDEs (VS Code, JetBrains)
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
