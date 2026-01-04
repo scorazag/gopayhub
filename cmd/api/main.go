@@ -50,6 +50,7 @@ func main() {
 		&domain.Transaction{},
 		&domain.IdempotencyKey{},
 		&domain.Deposit{},
+		&domain.CashOut{},
 	)
 	if err != nil {
 		log.Fatalf("Error durante la migración de la DB: %v", err)
@@ -66,11 +67,13 @@ func main() {
 	// El servicio recibe el repositorio, NO la DB.
 	paymentService := services.NewPaymentService(repo)
 	depositService := services.NewDepositService(repo)
+	cashoutService := services.NewCashOutService(repo)
 
 	// Handler (Capa de Adaptadores/Gin)
 	// El handler recibe el servicio.
 	paymentHandler := http.NewPaymentHandler(paymentService)
 	depositHandler := http.NewDepositHandler(depositService)
+	cashoutHandler := http.NewCashOutHandler(cashoutService)
 
 	// 4. Configuración de Rutas y Servidor Gin
 
@@ -90,6 +93,7 @@ func main() {
 		// Esta ruta ahora está protegida
 		api.POST("/transactions", paymentHandler.ProcessTransaction)
 		api.POST("/deposits", depositHandler.ProcessDeposit)
+		api.POST("/cashouts", cashoutHandler.ProcessCashOut)
 	}
 
 	log.Println("Servidor GoPayHub iniciado en :8080")
